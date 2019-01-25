@@ -8,6 +8,11 @@ class Router
     @j2 = ""
   end
 
+  def self.new_game
+    self.new.perform
+  end
+
+
   def name
     puts "Bonjour et bienvenue dans mon jeu de morpion".green
     puts ""
@@ -41,10 +46,10 @@ class Router
     choix = false
     if @tour1
       puts ""
-      puts "#{@j1}, ou veux-tu placer to pion ?".green
+      puts "#{@j1}, ou veux-tu placer to pion ? Choisis parmi les options ci-dessous.".green
     else
       puts ""
-      puts "#{@j2}, ou veux-tu placer to pion ?".green
+      puts "#{@j2}, ou veux-tu placer to pion ? Choisis parmi les options ci-dessous.".green
     end
     puts ""
     while choix == false
@@ -70,6 +75,8 @@ class Router
 
   
   def perform
+    answers = ["Y", "N"]
+    choix = false
     name
     if qui_commence #J1 commence
       @controller.display_board
@@ -82,15 +89,15 @@ class Router
         tour
         if @controller.win == true
           if i % 2 == 0
-            print "Bravo #{@j2}, tu as gagne !"
+            print "Bravo #{@j2}, tu as gagne !".green
             break
           else
-            print "Bravo #{@j1}, tu as gagne !"
+            print "Bravo #{@j1}, tu as gagne !".green
             break
           end
         end
         if i == 9
-          print "Il y a egalite"
+          print "Il y a egalite".green
         end
       end
     else #j2 commence
@@ -104,20 +111,47 @@ class Router
         tour
         if @controller.win == true
           if i % 2 == 0
-            print "Bravo #{@j2}, tu as gagne !"
+            print "Bravo #{@j1}, tu as gagne !".green
             break
           else
-            print "Bravo #{@j1}, tu as gagne !"
+            print "Bravo #{@j2}, tu as gagne !".green
             break
           end
         end
         
         if i == 9
-          print "Il y a egalite"
+          print "Il y a egalite".green
         end
       end
     end
+    puts ""
+    puts "Veux-tu faire une autre partie ? [Y/N]".green
+    print ">".green
+    answer = gets.chomp.to_s
+    while choix == false
+      if answers.include? answer
+        if answer == "Y"
+          puts ""
+          puts "Genial !".green 
+          Router.new_game
+        else
+          puts "Ok, merci d'avoir joue, et a bientot j'espere !".green
+        end
+        choix = true
+      else
+        puts ""
+        puts "Je ne comprends pas, veux-tu faire une autre partie ?".green
+        puts "Tu dois repondre par Y (pour oui) ou N (pour non)".green
+        print ">".green
+        answer = gets.chomp.to_s
+      end
+    end
+    
   end
+      
+    
+
+
 
 
 end
